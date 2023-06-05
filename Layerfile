@@ -23,14 +23,7 @@ RUN systemctl restart k3s
 
 # Run portainer (optional)
 # RUN k3s kubectl apply -n portainer -f https://raw.githubusercontent.com/portainer/k8s/master/deploy/manifests/portainer/portainer.yaml
-# RUN k3s kubectl apply -f https://downloads.portainer.io/ce2-16/portainer-agent-k8s-lb.yaml
-RUN docker run -d \
-  -p 9001:9001 \
-  --name portainer_agent \
-  --restart=always \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  -v /var/lib/docker/volumes:/var/lib/docker/volumes \
-  portainer/agent:2.16.2
+RUN k3s kubectl apply -f https://downloads.portainer.io/ce2-16/portainer-agent-k8s-lb.yaml
 
 # TODO: log in to docker hub
 # See https://webapp.io/docs/advanced-workflows#logging-in-to-docker to learn how to log in to docker
@@ -39,4 +32,4 @@ RUN docker run -d \
 # RUN docker compose up -d
 # RUN docker stack deploy -c docker-swarm.yml my-swarm-stack
 # TODO: change port to whatever is configured in your docker-compose.yml
-EXPOSE WEBSITE localhost:9001
+EXPOSE WEBSITE https://localhost:9001
